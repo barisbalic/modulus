@@ -1,0 +1,24 @@
+PATH
+  remote: .
+  specs:
+    modulus (0.0.1)
+      redis
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    metaclass (0.0.1)
+    minitest (4.2.0)
+    mocha (0.13.0)
+      metaclass (~> 0.0.1)
+    rake (10.0.3)
+    redis (3.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  minitest
+  mocha
+  modulus!
+  rake

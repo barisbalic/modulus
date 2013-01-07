@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+begin
+  require 'redis'
+rescue LoadError
+  require 'rubygems'
+  require 'redis'
+end
+
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
+require 'optparse'
+require 'csv'
+require 'json'
+require 'modulus'
+
+require 'modulus/import/substitute_table'
+require 'modulus/import/weight_table'
+
+
+def valid_path?(file)
+  return File.exists?( File.expand_path(file) ) unless file.nil? 
+  false
+end
+
+def help(opts)
+  puts opts
+  exit
+end
+
+options = {}
+purge = false
+
+parser = OptionParser.new do |opts|
+  opts.banner = 'Usage: modulus [options]'
+
+  opts.separator ''
+  opts.separator 'Options:'
+
+  opts.on('-p', '--purge', 'Purge all records') do
+    purge = true
+  end
+  
+  opts.on('-w', '--weight-table [file]', 'Modulus weight table') do |file|
+    help(opts) unless valid_path?(file)
+    options[:weight_table] = File.expand_path(file)
+  end
+
+  opts.on('-s', '--substitute-table [file]', 'Sort code substitute table') do |file|
+    help(opts) unless valid_path?(file)
+    options[:substitute_table] = File.expand_path(file)
+  end
+
+  opts.on('-r', '--redis [host:port]', 'Redis instance') do |redis|
+    help(opts) if redis.nil?
+    if redis.include?(':')
+      args = redis.split(':')
+      options[:redis] = {:host => args.first, :port => args.last}
+    else
+      options[:redis] = {:host => redis}
+    end
+  end
+
+  opts.on('-h', '--help', 'Show this message') do
+    puts opts
+    exit
+  end
+  # help(opts) if opts?
+end
+
+parser.parse!
+
+if(options[:weight_table] || options[:substitute_table] || purge == true)
+  Modulus.redis = Redis.new(options[:redis])
+  Modulus.namespace = ENV['MODULUS_NAMESPACE'] || 'VTEST'
+end
+
+if(options[:purge])
+  Modulus::Import::WeightTable.purge!
+  # Modulus::Import::SubstituteTable.purge!
+end
+
+if(options[:weight_table])
+  begin
+    Modulus::Import::WeightTable.purge!
+    Modulus::Import::WeightTable.import_file( options[:weight_table] )
+  rescue StandardError => e
+    puts e
+    exit
+  end
+end
+
+if(options[:substitute_table])
+end
