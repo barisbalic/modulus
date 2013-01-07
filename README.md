@@ -1,12 +1,15 @@
+# THIS PROJECT IS NOWHERE NEAR READY FOR USE, COME BACK LATER. 
+
 # Modulus
 
 Modulus allows you to validate bank account numbers (UK ones specifically), using the MOD10, MOD11 and Double Alternative check algorithms and data freely provided by VocaLink, see related links below for more information.
 
-The data is imported into Redis with the commands provided, and can be updated with files from VocaLink in their existing format.  All you have to do is download them and run them.
+The data is imported into Redis with the commands provided, and can be updated with files from VocaLink in their existing format.  All you have to do is download them and run the import scripts, you should always import both the weighting and substitute tables when updating your data.
 
 Caveats:
 * Just because an account is valid doesn't mean that it is in use.
-* If an account belongs to a financial institution not listed by VocaLink it is assumed to be valid as per their specification.
+* ~~If an account belongs to a financial institution not listed by VocaLink it is assumed to be valid as per their specification.~~
+* An account that cannot be found will raise a SortcodeNotFound exception, which you can handle as you wish.
 
 ## Installation
 
@@ -25,10 +28,10 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-Modulus::Check('######', '#########').passes?
+valid = Modulus.check('######', '########')
 ```
 
-## Commandline Interface
+## Commandline Interface (for imports)
 
 ```bash
 modulus
