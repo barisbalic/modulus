@@ -14,13 +14,14 @@ module Modulus
   # Carry out the necessary checks
   def self.check(sortcode, account_number)
     weightings = WeightTable.lookup(sortcode)
+    digits = sortcode.split('').concat(account_number.split('')).map{|d| d.to_i }
+
     raise Modulus::Exception::SortcodeNotFound if weightings.empty?
     weightings.any? do |w|
-      # if weightings.any? {|w| w.has_exception_case? }
-      #   ExceptionCase.for(weightings.map{|e| w.exception_case })
-      # end
-# STDERR.puts "Trying #{sortcode}, #{account_number}, #{w.digit_weights} with #{w.algorithm}"
-      w.algorithm.apply(sortcode, account_number, w.digit_weights)
+      weighting = w
+      # weighting = w.has_exception_case? ? ExceptionCase.for(w) : w
+      weighting.algorithm.apply(digits, weighting.digit_weights)
+      # weight_weighting = ExceptionCase.for(w.exception_case) if w.has_exception_case?
     end
   end
 

@@ -55,46 +55,35 @@ describe "Modulus" do
     end    
   end
 
-  # Where the fuck did this test come from?
-  describe "when performing checks where one check should fail" do
-    # it "should return valid for the passing double alternate check with 871427, 46238510" do
-    #   exception_11_weighting = Modulus::Weighting.new({
-    #     :check_method => 'ModulusEleven', 
-    #     :digit_weights => [0,0,5,10,9,8,0,7,6,5,4,3,2,1],
-    #     :exception_case => 11
-    #     })
-    #     
-    #   exception_10_weighting = Modulus::Weighting.new({
-    #     :check_method => 'ModulusTen', 
-    #     :digit_weights => [0,0,1,2,5,3,6,4,8,7,10,9,3,1],
-    #     :exception_case => 10
-    #     })
-    # 
-    #   Modulus::WeightTable.expects(:lookup).returns( [exception_11_weighting, exception_10_weighting] )
-    # 
-    #   pass = Modulus.check('871427', '46238510')
-    #   pass.must_equal true
-    # end    
+  # Special exceptions for 'some' Lloyds TSB accounts
+  describe "when performing checks where that include exception 10 and 11" do
+    describe "exception 10" do
+      # it "should return valid for passing 871427, 46238510 with Mod 11" do
+      #   exception_10_weighting = Modulus::Weighting.new({
+      #     :check_method => 'ModulusEleven', 
+      #     :digit_weights => [0,0,5,10,9,8,0,7,6,5,4,3,2,1],
+      #     :exception_case => 10
+      #     })
+      # 
+      #   Modulus::WeightTable.expects(:lookup).returns( [exception_10_weighting] )
+      # 
+      #   pass = Modulus.check('871427', '46238510')
+      #   pass.must_equal true
+      # end
+      # 
+      #exception 11
+      # it "should return invalid for passing 871427, 46238510 with Mod 11" do
+      #   exception_11_weighting = Modulus::Weighting.new({
+      #     :check_method => 'ModulusEleven', 
+      #     :digit_weights => [0,0,5,10,9,8,0,7,6,5,4,3,2,1],
+      #     :exception_case => 11
+      #     })
+      # 
+      #   Modulus::WeightTable.expects(:lookup).returns( [exception_11_weighting] )
+      # 
+      #   pass = Modulus.check('871427', '46238510')
+      #   pass.must_equal false        
+      # end
+    end
   end
-
-  # describe "when performing checks with exceptions" do
-  #   it "should return valid for the passing double alternate check with 871427, 46238510" do
-  #     exception_11_weighting = Modulus::Weighting.new({
-  #       :check_method => 'ModulusEleven', 
-  #       :digit_weights => [0,0,5,10,9,8,0,7,6,5,4,3,2,1],
-  #       :exception_case => 11
-  #       })
-  #       
-  #     exception_10_weighting = Modulus::Weighting.new({
-  #       :check_method => 'ModulusTen', 
-  #       :digit_weights => [0,0,1,2,5,3,6,4,8,7,10,9,3,1],
-  #       :exception_case => 10
-  #       })
-  # 
-  #     Modulus::WeightTable.expects(:lookup).returns( [exception_11_weighting, exception_10_weighting] )
-  # 
-  #     pass = Modulus.check('871427', '46238510')
-  #     pass.must_equal true
-  #   end    
-  # end
 end

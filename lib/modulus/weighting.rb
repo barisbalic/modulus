@@ -22,5 +22,10 @@ module Modulus
     def algorithm
       Object.const_get('Modulus').const_get('Algorithm').const_get(@check_method)
     end
+    
+    # A convenience method to check if the weighting has any exception cases.
+    def has_exception_case?
+      @exception_case > 0
+    end
   end
 end

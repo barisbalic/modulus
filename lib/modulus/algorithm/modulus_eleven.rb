@@ -4,11 +4,9 @@ module Modulus
     # which will apply the check.
 
     module ModulusEleven
-      def self.apply(sortcode, account_number, check_digits)
-        weighted_digits = ModulusBase.apply(sortcode, account_number, check_digits)
+      def self.apply(digits, check_digits)
+        weighted_digits = ModulusBase.apply(digits, check_digits)
         total = weighted_digits.reduce(:+)
-# STDERR.puts "TOTAL: #{total}"
-# STDERR.puts "DIV: #{(total % 11)}"
         (total % 11) == 0
       end
     end

@@ -4,12 +4,9 @@ module Modulus
     # which will apply the check.
 
     module ModulusTen
-      def self.apply(sortcode, account_number, check_digits)
-        # STDERR.puts "DIGITS :: #{check_digits.inspect}"
-        weighted_digits = ModulusBase.apply(sortcode, account_number, check_digits)
-        # STDERR.puts "WEIGHTED :: #{weighted_digits.inspect}"
+      def self.apply(digits, check_digits)
+        weighted_digits = ModulusBase.apply(digits, check_digits)
         total = weighted_digits.reduce(:+)
-        # STDERR.puts "TOTAL :: #{total}"
         (total % 10) == 0
       end
     end
