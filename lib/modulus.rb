@@ -20,7 +20,8 @@ module Modulus
     weightings.any? do |w|
       weighting = w
       # weighting = w.has_exception_case? ? ExceptionCase.for(w) : w
-      weighting.algorithm.apply(digits, weighting.digit_weights)
+      weighting.apply_algorithm(digits)
+      # weighting.algorithm.apply(digits, weighting.digit_weights)
       # weight_weighting = ExceptionCase.for(w.exception_case) if w.has_exception_case?
     end
   end
