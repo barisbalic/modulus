@@ -11,12 +11,15 @@ require 'modulus/exceptions'
 module Modulus
   # extend Configuration
   extend self
-  
   # Carry out the necessary checks
   def self.check(sortcode, account_number)
     weightings = WeightTable.lookup(sortcode)
     raise Modulus::Exception::SortcodeNotFound if weightings.empty?
     weightings.any? do |w|
+      # if weightings.any? {|w| w.has_exception_case? }
+      #   ExceptionCase.for(weightings.map{|e| w.exception_case })
+      # end
+# STDERR.puts "Trying #{sortcode}, #{account_number}, #{w.digit_weights} with #{w.algorithm}"
       w.algorithm.apply(sortcode, account_number, w.digit_weights)
     end
   end

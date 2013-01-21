@@ -8,8 +8,6 @@ module Modulus
 
     attr_reader :digit_weights, :check_method, :exception_case
     def initialize(opts)
-    # def initialize(digit_weights, check_method, exception_case)
-    #   @digit_weights, @check_method, @exception_case = digit_weights, check_method, exception_case
       @digit_weights = opts[:digit_weights]
       @check_method = opts[:check_method]
       @exception_case = opts[:exception_case]
