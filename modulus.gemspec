@@ -16,5 +16,4 @@ Gem::Specification.new do |gem|
   gem.version       = Modulus::VERSION
 
   gem.add_dependency 'redis'
-  # gem.add_dependency 'haml'
 end
